@@ -1,32 +1,72 @@
-
-
-import javax.swing.*;
-
 import java.awt.*;
-import java.awt.event.KeyEvent;
-public class Game extends javax.swing.JPanel 
-implements java.awt.event.KeyListener {
+import java.awt.image.BufferStrategy;
 
-	public void init() {
-		 this.setPreferredSize(new Dimension(600,600));
+import javax.swing.JFrame;
+
+@SuppressWarnings("serial")
+public class Game extends Canvas implements Runnable {
+	public static Snake snake;
+	public static Apple apple;
+	
+	JFrame frame;
+	public final int WIDTH = 600;
+	public final int HEIGHT = 600;
+	public final Dimension gameSize = new Dimension(WIDTH, HEIGHT);
+	public final String TITLE = "Snake";
+	
+	public void run(){
+		while(true){
+			render();
+			try {
+				Thread.sleep(15);
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+		}
 	}
-
-	@Override
-	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
+	
+	public synchronized void start(){
+		new Thread(this).start();
+	}
+	
+	public Game(){
+		frame = new JFrame();
+		
+		setMinimumSize(gameSize);
+		setPreferredSize(gameSize);
+		setMaximumSize(gameSize);
+		
+		frame.add(this, BorderLayout.CENTER);
+		frame.pack();
+		
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setVisible(true);
+		frame.setResizable(false);
+		frame.setTitle(TITLE);
+		frame.setLocationRelativeTo(null);
+		
+		snake = new Snake();
+		apple = new Apple(snake);
+	}
+	
+	public void tick(){
 		
 	}
 
-	@Override
-	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
+	
+	public void render(){
+		BufferStrategy bs = getBufferStrategy();
+		if(bs == null) {
+			createBufferStrategy(3);
+			return;
+		}
+		Graphics g = bs.getDrawGraphics();
 		
-	}
-
-	@Override
-	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
+		snake.drawSnake(g);
+		apple.drawApple(g);
 		
+		g.dispose();
+		bs.show();		
 	}
 }
 

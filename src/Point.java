@@ -1,0 +1,41 @@
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Rectangle;
+
+
+public class Point {
+	private int x, y;
+	private final int WIDTH = 20;
+	private final int HEIGHT = 20;
+	Rectangle boundingBox;
+	
+	
+	public Point(int x, int y){
+		this.x = x;
+		this.y = y;
+		
+		boundingBox = new Rectangle(x, y, WIDTH, HEIGHT);
+		boundingBox.setBounds(x, y, WIDTH, HEIGHT);
+	}
+	
+		
+	public int getX() {
+		return x;
+	}
+	public void setX(int x) {
+		this.x = x;
+	}
+	public int getY() {
+		return y;
+	}
+	public void setY(int y) {
+		this.y = y;
+	}
+	
+	public void draw(Graphics g, Color color) {
+		g.setColor(Color.BLACK);
+		g.fillRect(x, y, WIDTH, HEIGHT);
+		g.setColor(color);
+		g.fillRect(x+1, y+1, WIDTH-2, HEIGHT-2);		
+	}
+}
