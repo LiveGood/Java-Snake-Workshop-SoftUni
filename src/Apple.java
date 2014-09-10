@@ -16,12 +16,10 @@ public class Apple {
 	
 	private Point getSnakePoint(Snake s) {
 		randGenerator = new Random();
-		int x = randGenerator.nextInt(30) + 1;
-		int y= randGenerator.nextInt(30) + 1;
-		x *= 20;
-		y *= 20;
+		int x = randGenerator.nextInt(30) * 20; 
+		int y = randGenerator.nextInt(30) * 20;
 		for (Point snakePoint : s.body) {
-			if (x == snakePoint.getX() || y == snakePoint.getY()	) {
+			if (x == snakePoint.getX() || y == snakePoint.getY()) {
 				return getSnakePoint(s);				
 			}
 		}
@@ -31,4 +29,8 @@ public class Apple {
 	public void drawApple(Graphics g){
 		applePoint.draw(g, appleColor);
 	}	
+	
+	public Point getPoint(){
+		return applePoint;
+	}
 }

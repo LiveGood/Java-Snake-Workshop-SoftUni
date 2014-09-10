@@ -43,21 +43,6 @@ public class InputHandler implements KeyListener{
 
 	
 	public void keyReleased(KeyEvent e) {
-		int keyCode = e.getKeyCode();
-		
-		
-		if (keyCode == KeyEvent.VK_W || keyCode == KeyEvent.VK_UP) {
-//			Game.snake.goingUp = false;
-		}
-		if (keyCode == KeyEvent.VK_S || keyCode == KeyEvent.VK_DOWN) {
-//			Game.snake.goingDown = false;
-		}
-		if (keyCode == KeyEvent.VK_D || keyCode == KeyEvent.VK_RIGHT) {
-//			Game.snake.goingRight = false;
-		}
-		if (keyCode == KeyEvent.VK_A || keyCode == KeyEvent.VK_LEFT) {
-//			Game.snake.goingLeft = false;
-		}
 	}
 
 	

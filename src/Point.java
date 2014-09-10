@@ -9,15 +9,14 @@ public class Point {
 	private final int HEIGHT = 20;
 	Rectangle boundingBox;
 	
+	public Point(Point p){
+		this(p.x, p.y);
+	}
 	
 	public Point(int x, int y){
 		this.x = x;
 		this.y = y;
-		
-		boundingBox = new Rectangle(x, y, WIDTH, HEIGHT);
-		boundingBox.setBounds(x, y, WIDTH, HEIGHT);
-	}
-	
+	}	
 		
 	public int getX() {
 		return x;
@@ -38,4 +37,16 @@ public class Point {
 		g.setColor(color);
 		g.fillRect(x+1, y+1, WIDTH-2, HEIGHT-2);		
 	}
+	
+	public String toString(){
+		return "[x=" + x + ",y=" + y + "]";
+	}
+	
+	public boolean equals(Object obj) {
+        if (obj instanceof Point) {
+            Point pt = (Point)obj;
+            return (x == pt.x) && (y == pt.y);
+        }
+        return false;
+    }
 }

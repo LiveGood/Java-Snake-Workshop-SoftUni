@@ -1,58 +1,48 @@
-import java.awt.*;
-import java.awt.image.BufferStrategy;
-
-import javax.swing.JFrame;
+import java.awt.Canvas;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
 
 @SuppressWarnings("serial")
 public class Game extends Canvas implements Runnable {
 	public static Snake snake;
 	public static Apple apple;
-	InputHandler IH;
+	static int score;
 	
-	JFrame frame;
+	private Graphics globalGraphics;
+	private Thread runThread;
 	public final int WIDTH = 600;
 	public final int HEIGHT = 600;
-	public final Dimension gameSize = new Dimension(WIDTH, HEIGHT);
-	public final String TITLE = "Snake";
+	private final Dimension gameSize = new Dimension(WIDTH, HEIGHT);
 	
 	static boolean gameRunning = false;
+	
+	
+	public void paint(Graphics g){
+		this.setPreferredSize(gameSize);
+		globalGraphics = g.create();
+		score = 0;
+		
+		if(runThread == null){
+			runThread = new Thread(this);
+			runThread.start();
+			gameRunning = true;
+		}
+	}
 	
 	public void run(){
 		while(gameRunning){
 			tick();
-			render();
+			render(globalGraphics);
 			try {
-				Thread.sleep(50);
+				Thread.sleep(100);
 			} catch (Exception e) {
 				// TODO: handle exception
 			}
 		}
 	}
 	
-	public synchronized void start(){
-		gameRunning =  true;
-		new Thread(this).start();
-	}
-	
-	public Game(){
-		frame = new JFrame();
-		
-		setMinimumSize(gameSize);
-		setPreferredSize(gameSize);
-		setMaximumSize(gameSize);
-		
-		frame.add(this, BorderLayout.CENTER);
-		frame.pack();
-		
-		
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setVisible(true);
-		frame.setResizable(false);
-		frame.setTitle(TITLE);
-		frame.setLocationRelativeTo(null);
-		
-		IH = new InputHandler(this);
-		
+	public Game(){	
 		snake = new Snake();
 		apple = new Apple(snake);
 	}
@@ -62,19 +52,21 @@ public class Game extends Canvas implements Runnable {
 	}
 
 	
-	public void render(){
-		BufferStrategy bs = getBufferStrategy();
-		if(bs == null) {
-			createBufferStrategy(2);
-			return;
-		}
-		Graphics g = bs.getDrawGraphics();
+	public void render(Graphics g){
+		g.clearRect(0, 0, WIDTH, HEIGHT+25);
 		
-		snake.drawSnake(g);
-		apple.drawApple(g);
+		BufferedImage buffer = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_ARGB);
+		Graphics bufferGraphics = buffer.getGraphics();
 		
-		g.dispose();
-		bs.show();		
+		g.drawRect(0, 0, WIDTH, HEIGHT);
+		
+		
+		
+		snake.drawSnake(bufferGraphics);
+		apple.drawApple(bufferGraphics);
+		g.drawString("score= " + score, 10, HEIGHT + 25);
+		g.drawImage(buffer, 0, 0, WIDTH, HEIGHT, this);
+		
 	}
 }
 
