@@ -38,7 +38,7 @@ public class Point {
 		g.fillRect(x+1, y+1, WIDTH-2, HEIGHT-2);		
 	}
 	
-	public String toString(){
+	public String toString() {
 		return "[x=" + x + ",y=" + y + "]";
 	}
 	

@@ -1,4 +1,5 @@
 import java.awt.Canvas;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
@@ -11,12 +12,11 @@ public class Game extends Canvas implements Runnable {
 	
 	private Graphics globalGraphics;
 	private Thread runThread;
-	public final int WIDTH = 600;
-	public final int HEIGHT = 600;
+	public static final int WIDTH = 600;
+	public static final int HEIGHT = 600;
 	private final Dimension gameSize = new Dimension(WIDTH, HEIGHT);
 	
 	static boolean gameRunning = false;
-	
 	
 	public void paint(Graphics g){
 		this.setPreferredSize(gameSize);
@@ -32,7 +32,7 @@ public class Game extends Canvas implements Runnable {
 	
 	public void run(){
 		while(gameRunning){
-			tick();
+			snake.tick();
 			render(globalGraphics);
 			try {
 				Thread.sleep(100);
@@ -46,26 +46,20 @@ public class Game extends Canvas implements Runnable {
 		snake = new Snake();
 		apple = new Apple(snake);
 	}
-	
-	public void tick(){
-		snake.tick(this);
-	}
-
-	
+		
 	public void render(Graphics g){
 		g.clearRect(0, 0, WIDTH, HEIGHT+25);
 		
-		BufferedImage buffer = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_ARGB);
-		Graphics bufferGraphics = buffer.getGraphics();
+//		BufferedImage buffer = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_ARGB);
+//		Graphics bufferGraphics = buffer.getGraphics();
 		
+//		g.setColor(Color.BLACK);
 		g.drawRect(0, 0, WIDTH, HEIGHT);
-		
-		
-		
-		snake.drawSnake(bufferGraphics);
-		apple.drawApple(bufferGraphics);
+			
+		snake.drawSnake(g);
+		apple.drawApple(g);
 		g.drawString("score= " + score, 10, HEIGHT + 25);
-		g.drawImage(buffer, 0, 0, WIDTH, HEIGHT, this);
+//		g.drawImage(buffer, 0, 0, WIDTH, HEIGHT, this);
 		
 	}
 }

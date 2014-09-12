@@ -2,7 +2,6 @@ import java.applet.Applet;
 import java.awt.Dimension;
 import java.awt.Graphics;
 
-
 @SuppressWarnings("serial")
 public class GameApplet extends Applet {
 	private Game game;
@@ -21,7 +20,6 @@ public class GameApplet extends Applet {
 	
 	public void paint(Graphics g){
 		this.setSize(new Dimension(800, 650));
-		
 	}
 
 }

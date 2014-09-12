@@ -9,18 +9,18 @@ public class Apple {
 	private Color appleColor;
 	
 	public Apple(Snake s) {
-		applePoint = getSnakePoint(s);
+		applePoint = createApple(s);
 		appleColor = Color.RED;
 		
 	}
 	
-	private Point getSnakePoint(Snake s) {
+	private Point createApple(Snake s) {
 		randGenerator = new Random();
 		int x = randGenerator.nextInt(30) * 20; 
 		int y = randGenerator.nextInt(30) * 20;
 		for (Point snakePoint : s.body) {
 			if (x == snakePoint.getX() || y == snakePoint.getY()) {
-				return getSnakePoint(s);				
+				return createApple(s);				
 			}
 		}
 		return new Point(x, y);
